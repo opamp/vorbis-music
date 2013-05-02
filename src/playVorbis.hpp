@@ -3,6 +3,10 @@
 #include<QObject>
 #include<QString>
 #include<QByteArray>
+#include<QAudioBuffer>
+#include<QAudioFormat>
+#include<QIODevice>
+#include<QAudioOutput>
 
 #define PCMOUT_SIZE 4096
 
@@ -19,5 +23,8 @@ public:
 private:
     QString filePath;
     QByteArray bArray;
+    QAudioFormat af;
+    QAudioOutput *out;
+    QIODevice* io;
 };
 #endif
