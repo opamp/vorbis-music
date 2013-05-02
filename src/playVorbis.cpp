@@ -13,4 +13,5 @@ bool playVorbis::play(){
 
 
     ov_clear(&vf);
+    return true;
 }
