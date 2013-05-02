@@ -3,6 +3,8 @@
 #include<QObject>
 #include<QString>
 
+#define PCMOUT_SIZE 4096
+
 /*This headers must be included*/
 #include<vorbis/vorbisfile.h>
 
