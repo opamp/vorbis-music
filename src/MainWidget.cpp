@@ -1,3 +1,4 @@
+#include<QFileDialog>
 #include<QHBoxLayout>
 #include<QVBoxLayout>
 #include"MainWidget.hpp"
@@ -8,6 +9,11 @@ MainWidget::MainWidget(QWidget* parent):
     filePathEditLabel = new QLabel("Choose ogg vorbis file");
     fileChooseButton = new QPushButton("Choose");
     playButton = new QPushButton("Play");
+
+    filePathEdit->setReadOnly(true);
+
+    connect(fileChooseButton,SIGNAL(clicked()),this,SLOT(callFileChooser()));
+    connect(playButton,SIGNAL(clicked()),this,SLOT(playVorbis()));
 
 	QVBoxLayout* mainLayout = new QVBoxLayout();
 	QHBoxLayout* fileEditLine = new QHBoxLayout();
@@ -20,4 +26,13 @@ MainWidget::MainWidget(QWidget* parent):
 	mainLayout->addWidget(playButton);
 
 	setLayout(mainLayout);
+}
+
+void MainWidget::callFileChooser(){
+    this->vorbisFilePath = QFileDialog::getOpenFileName(this,tr("Open Vorbis File"),".",tr("Audio File (*.ogg)"));
+    filePathEdit->setText(this->vorbisFilePath);
+}
+
+void MainWidget::playVorbis(){
+
 }
