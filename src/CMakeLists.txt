@@ -9,6 +9,7 @@ SET(MSRC
 	${SRC_DIR}/main.cpp
 	${SRC_DIR}/MainWindow.cpp
 	${SRC_DIR}/MainWidget.cpp
+	${SRC_DIR}/playVorbis.cpp
 	)
 
 #QT5_ADD_RESOURCES(QRC ${SRC_DIR}/main.qrc)
