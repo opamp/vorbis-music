@@ -1,3 +1,8 @@
+#include<QAudioBuffer>
+#include<QAudioFormat>
+#include<QIODevice>
+#include<QAudioOutput>
+
 #include"playVorbis.hpp"
 
 playVorbis::playVorbis(const QString& ovFilePath){
@@ -22,8 +27,8 @@ bool playVorbis::play(){
           2nd arg -> buffer(decodec date will be wrote it)
           3rd arg -> sizeof pcmout.typical value is 4096.
           4th arg -> 0 for litele endian,1 for big endian.
-          5th arg -> word size. 1 for 8bit samples or 2 or 16bit samples. typical value is 2.
-          6th arg -> sgned signed or unsigned data. 0 for unsigned, 1 for signed. typical value is 1.
+          5th arg -> word size. 1 for 8bit samples or 2 or 16bit samples. typical value is 2.[16bitPCM]
+          6th arg -> signed signed or unsigned data. 0 for unsigned, 1 for signed. typical value is 1.
           7th arg -> A pointer to the number of the current logical bitstream.*/
         if(ret == 0){
             //EOF
@@ -33,11 +38,24 @@ bool playVorbis::play(){
             ov_clear(&vf);
             return false;
         }else{
-            fwrite(pcmout,1,ret,f);
+//         fwrite(pcmout,1,ret,f);
+            bArray.append(pcmout);
         }
     }
 
     fclose(f);
     ov_clear(&vf);
+    QAudioFormat af;
+    af.setCodec("audio/pcm");//http://www.iana.org/assignments/media-types/audio/
+    af.setChannelCount(2);
+    af.setSampleRate(44100);
+    af.setSampleSize(16);
+    af.setSampleType(QAudioFormat::SignedInt);
+    //QAudioBuffer ab(bArray,af);
+    QIODevice io;
+    io.write(bArray);
+    QAudioOutput out(af);
+    out.start(&io);
+
     return true;
 }

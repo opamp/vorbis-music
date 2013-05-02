@@ -2,6 +2,7 @@
 #define PLAY_VORBIS_HPP
 #include<QObject>
 #include<QString>
+#include<QByteArray>
 
 #define PCMOUT_SIZE 4096
 
@@ -17,5 +18,6 @@ public:
 
 private:
     QString filePath;
+    QByteArray bArray;
 };
 #endif
