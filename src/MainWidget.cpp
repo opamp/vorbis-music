@@ -3,6 +3,7 @@
 #include<QMessageBox>
 #include<QHBoxLayout>
 #include<QVBoxLayout>
+
 #include"MainWidget.hpp"
 
 MainWidget::MainWidget(QWidget* parent):
@@ -40,4 +41,5 @@ void MainWidget::playVorbis(){
         QMessageBox::critical(this,"ERROR","You have to choose ogg vorbis file.");
         return;
     }
+    player = new playVorbis(this->vorbisFilePath);
 }

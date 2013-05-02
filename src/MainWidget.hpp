@@ -6,6 +6,8 @@
 #include<QPushButton>
 #include<QString>
 
+#include"playVorbis.hpp"
+
 class MainWidget :public QWidget{
     Q_OBJECT
 public:
@@ -22,5 +24,7 @@ private:
     QPushButton* playButton;
 
     QString vorbisFilePath;
+
+    playVorbis *player;
 };
 #endif
