@@ -3,6 +3,9 @@
 #include<QObject>
 #include<QString>
 
+/*This headers must be included*/
+#include<vorbis/vorbisfile.h>
+
 class playVorbis : public QObject{
     Q_OBJECT
 public:

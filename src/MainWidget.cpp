@@ -16,7 +16,7 @@ MainWidget::MainWidget(QWidget* parent):
     filePathEdit->setReadOnly(true);
 
     connect(fileChooseButton,SIGNAL(clicked()),this,SLOT(callFileChooser()));
-    connect(playButton,SIGNAL(clicked()),this,SLOT(playVorbis()));
+    connect(playButton,SIGNAL(clicked()),this,SLOT(playOggVorbisFile()));
 
 	QVBoxLayout* mainLayout = new QVBoxLayout();
 	QHBoxLayout* fileEditLine = new QHBoxLayout();
@@ -36,10 +36,14 @@ void MainWidget::callFileChooser(){
     filePathEdit->setText(this->vorbisFilePath);
 }
 
-void MainWidget::playVorbis(){
+void MainWidget::playOggVorbisFile(){
     if(!QFile::exists(this->vorbisFilePath)){
         QMessageBox::critical(this,"ERROR","You have to choose ogg vorbis file.");
         return;
     }
     player = new playVorbis(this->vorbisFilePath);
+    if(!player->play()){
+        QMessageBox::critical(this,"ERROR","Fail to play ogg vorbis file.");
+        return;
+    }
 }

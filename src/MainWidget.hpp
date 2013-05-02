@@ -14,7 +14,7 @@ public:
     MainWidget(QWidget* parent = 0);
 
 private slots:
-    void playVorbis();
+    void playOggVorbisFile();
     void callFileChooser();
 
 private:
