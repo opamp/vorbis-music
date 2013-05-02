@@ -1,4 +1,6 @@
 #include<QFileDialog>
+#include<QFile>
+#include<QMessageBox>
 #include<QHBoxLayout>
 #include<QVBoxLayout>
 #include"MainWidget.hpp"
@@ -34,5 +36,8 @@ void MainWidget::callFileChooser(){
 }
 
 void MainWidget::playVorbis(){
-
+    if(!QFile::exists(this->vorbisFilePath)){
+        QMessageBox::critical(this,"ERROR","You have to choose ogg vorbis file.");
+        return;
+    }
 }
