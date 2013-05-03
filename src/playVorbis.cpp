@@ -15,6 +15,17 @@ bool playVorbis::play(){
     int eof = 0;
     int currentSection;
 
+
+    af.setCodec("audio/pcm");//http://www.iana.org/assignments/media-types/audio/
+    af.setChannelCount(2);
+    af.setSampleRate(48000);
+    af.setSampleSize(16);
+    af.setSampleType(QAudioFormat::SignedInt);
+    af.setByteOrder(QAudioFormat::LittleEndian	);
+    out = new QAudioOutput(af);
+    out->setVolume(0.5);
+    io = out->start();
+
     while(!eof){
         long ret = ov_read(&vf,pcmout,PCMOUT_SIZE,0,2,1,&currentSection);//http://xiph.org/vorbis/doc/vorbisfile/ov_read.html
         /*
@@ -33,26 +44,17 @@ bool playVorbis::play(){
             ov_clear(&vf);
             return false;
         }else{
-            fwrite(pcmout,1,ret,f);
+            fwrite(pcmout,1,ret,f);//PCM16bit LE signed data.
             bArray += pcmout;
+            //io->write(pcmout);
         }
     }
 
     fclose(f);
     ov_clear(&vf);
 
-    af.setCodec("audio/pcm");//http://www.iana.org/assignments/media-types/audio/
-    af.setChannelCount(2);
-    af.setSampleRate(44100);
-    af.setSampleSize(16);
-    af.setSampleType(QAudioFormat::SignedInt);
-    af.setByteOrder(QAudioFormat::LittleEndian	);
-    out = new QAudioOutput(af);
-    out->setVolume(0.5);
 
-    io = out->start();
     io->write(bArray);
-
     printf("%d\n",out->error());
     /*
     delete io;
