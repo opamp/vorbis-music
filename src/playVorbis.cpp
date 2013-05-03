@@ -44,9 +44,10 @@ bool playVorbis::decode(){
             ov_clear(&vf);
             return false;
         }else{
-            fwrite(pcmout,1,ret,f);//PCM16bit LE signed data.
-            bArray += pcmout;
-            //io->write(pcmout);
+            fwrite(pcmout,sizeof(char),ret,f);//PCM16bit LE signed data.
+			for(long i = 0;i < ret;i++){
+				this->bArray.append(pcmout[i]);
+			}
         }
     }
 
