@@ -18,6 +18,7 @@ class playVorbis : public QObject{
 public:
     playVorbis(const QString &);
 
+    bool decode();
     bool play();
 
 private:

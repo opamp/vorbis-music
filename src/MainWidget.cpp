@@ -42,6 +42,10 @@ void MainWidget::playOggVorbisFile(){
         return;
     }
     player = new playVorbis(this->vorbisFilePath);
+    if(!player->decode()){
+        QMessageBox::critical(this,"ERROR","Fail to decode ogg vorbis file.");
+        return;
+    }
     if(!player->play()){
         QMessageBox::critical(this,"ERROR","Fail to play ogg vorbis file.");
         return;

@@ -4,7 +4,7 @@ playVorbis::playVorbis(const QString& ovFilePath){
     this->filePath = ovFilePath;
 }
 
-bool playVorbis::play(){
+bool playVorbis::decode(){
     FILE* f = fopen("test.pcm","wb"); //for test
     OggVorbis_File vf;/*http://xiph.org/vorbis/doc/vorbisfile/OggVorbis_File.html*/
     if(ov_fopen(this->filePath.toStdString().c_str(),&vf) != 0){ //0 indicates success.
@@ -53,13 +53,14 @@ bool playVorbis::play(){
     fclose(f);
     ov_clear(&vf);
 
-
-    io->write(bArray);
-    printf("%d\n",out->error());
-    /*
-    delete io;
-    delete out;
-*/
-
     return true;
+}
+
+bool playVorbis::play(){
+    io->write(this->bArray);
+    if(out->error() == 0){
+        return true;
+    }else{
+        return false;
+    }
 }
