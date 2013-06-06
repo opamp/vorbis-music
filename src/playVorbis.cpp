@@ -1,12 +1,14 @@
 #include"playVorbis.hpp"
+#include<QBuffer>
+#include<iostream>
 
 playVorbis::playVorbis(const QString& ovFilePath){
     this->filePath = ovFilePath;
 }
 
 bool playVorbis::decode(){
-    FILE* f = fopen("test.pcm","wb"); //for test
-    OggVorbis_File vf;/*http://xiph.org/vorbis/doc/vorbisfile/OggVorbis_File.html*/
+    FILE* f = fopen("test.raw","wb"); //for test
+    OggVorbis_File vf; /*http://xiph.org/vorbis/doc/vorbisfile/OggVorbis_File.html*/
     if(ov_fopen(this->filePath.toStdString().c_str(),&vf) != 0){ //0 indicates success.
         return false;//ERROR
     }
@@ -16,15 +18,22 @@ bool playVorbis::decode(){
     int currentSection;
 
 
-    af.setCodec("audio/pcm");//http://www.iana.org/assignments/media-types/audio/
     af.setChannelCount(2);
-    af.setSampleRate(48000);
+    af.setSampleRate(44100);
     af.setSampleSize(16);
+    af.setCodec("audio/pcm");//http://www.iana.org/assignments/media-types/audio/
     af.setSampleType(QAudioFormat::SignedInt);
     af.setByteOrder(QAudioFormat::LittleEndian	);
-    out = new QAudioOutput(af);
+
+    QAudioDeviceInfo info(QAudioDeviceInfo::defaultOutputDevice());
+    if(!info.isFormatSupported(af)) {
+        std::cout<<"ERROR"<<std::endl;
+        return false;
+    }
+
+    out = new QAudioOutput(af,this);
     out->setVolume(0.5);
-    io = out->start();
+    //io = out->start();
 
     while(!eof){
         long ret = ov_read(&vf,pcmout,PCMOUT_SIZE,0,2,1,&currentSection);//http://xiph.org/vorbis/doc/vorbisfile/ov_read.html
@@ -45,10 +54,15 @@ bool playVorbis::decode(){
             return false;
         }else{
             fwrite(pcmout,sizeof(char),ret,f);//PCM16bit LE signed data.
-			for(long i = 0;i < ret;i++){
-				this->bArray.append(pcmout[i]);
-			}
+            this->bArray.append(pcmout,ret);
         }
+    }
+
+    connect(out,SIGNAL(stateChanged(QAudio::State)),SLOT(finishedPlaying(QAudio::State)));
+
+    vorbis_info *vinfo = ov_info(&vf,-1);
+    if(vinfo == NULL){//fail to get vorbis_info.
+        return false;
     }
 
     fclose(f);
@@ -58,10 +72,18 @@ bool playVorbis::decode(){
 }
 
 bool playVorbis::play(){
-    io->write(this->bArray);
-    if(out->error() == 0){
-        return true;
-    }else{
-        return false;
-    }
+    f = new QFile("test.raw");
+    std::cout<<"SIZE = "<<(new QBuffer(&bArray))->size()<<std::endl;
+    QBuffer* b = new QBuffer(&bArray);
+    b->open(QIODevice::ReadOnly);
+    out->start(b);
+}
+
+ void playVorbis::finishedPlaying(QAudio::State state){
+     std::cout<<state<<std::endl;
+     if (state == QAudio::IdleState) {
+         out->stop();
+         f->close();
+         delete out;
+      }
 }
