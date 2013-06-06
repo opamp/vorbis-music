@@ -1,5 +1,4 @@
 #include"playVorbis.hpp"
-#include<QBuffer>
 #include<iostream>
 
 playVorbis::playVorbis(const QString& ovFilePath){
@@ -33,7 +32,6 @@ bool playVorbis::decode(){
 
     out = new QAudioOutput(af,this);
     out->setVolume(0.5);
-    //io = out->start();
 
     while(!eof){
         long ret = ov_read(&vf,pcmout,PCMOUT_SIZE,0,2,1,&currentSection);//http://xiph.org/vorbis/doc/vorbisfile/ov_read.html
@@ -72,18 +70,18 @@ bool playVorbis::decode(){
 }
 
 bool playVorbis::play(){
-    f = new QFile("test.raw");
     std::cout<<"SIZE = "<<(new QBuffer(&bArray))->size()<<std::endl;
-    QBuffer* b = new QBuffer(&bArray);
+    b = new QBuffer(&bArray);
     b->open(QIODevice::ReadOnly);
     out->start(b);
+    return true;
 }
 
  void playVorbis::finishedPlaying(QAudio::State state){
-     std::cout<<state<<std::endl;
+     std::cout<<"Changed state = "<<state<<std::endl;
      if (state == QAudio::IdleState) {
          out->stop();
-         f->close();
+         b->close();
          delete out;
       }
 }

@@ -2,7 +2,7 @@
 #define PLAY_VORBIS_HPP
 #include<QObject>
 #include<QString>
-#include<QFile>
+#include<QBuffer>
 #include<QByteArray>
 #include<QAudioBuffer>
 #include<QAudioFormat>
@@ -28,10 +28,8 @@ private slots:
 private:
     QString filePath;
     QByteArray bArray;
+    QBuffer* b;
     QAudioFormat af;
     QAudioOutput *out;
-    QIODevice* io;
-
-    QFile *f;
 };
 #endif
