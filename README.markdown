@@ -18,11 +18,11 @@ CMakeは以下のページで配布されています。
 このソフトはQt5及びlibvorbisに依存します。この2つをインストールしてください。  
 libvorbisはwindows(MinGW)向けにコンパイルしたものを用意していますのでそちらを利用しても大丈夫です。  
 
-Qt5 -> http://qt-project.org/  
+[Qt5](http://qt-project.org/)  
 
-libvorbis -> http://xiph.org/vorbis/  
+[libvorbis](http://xiph.org/vorbis/)  
 
-libvorbis for windows -> https://dl.dropboxusercontent.com/u/23369413/oss/vorbis-libraries.zip  
+[libvorbis for windows](https://dl.dropboxusercontent.com/u/23369413/oss/vorbis_libraries.zip)  
 
 3.CMakeを実行する  
 以下ではUNIXターミナル(MinGWでも可能)を例に説明します。(CMakeにはGUIツールが付属するのでそちらを利用しても大丈夫です)   
