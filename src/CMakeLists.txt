@@ -8,6 +8,7 @@ LINK_DIRECTORIES(/usr/lib /usr/local/lib)
 
 SET(BINARY_NAME "vorbis-music")
 
+
 SET(MSRC
 	${SRC_DIR}/main.cpp
 	${SRC_DIR}/MainWindow.cpp
