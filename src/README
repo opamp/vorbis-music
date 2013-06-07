@@ -1,0 +1,2 @@
+playVorbis.cpp及びplayVorbis.hpp以外のファイルはすべてGUIのための記述のみしています。  
+vorbis再生についてのコードはplayVorbis.cpp及びhpp内部にありますのでそちらを参照してください。  
