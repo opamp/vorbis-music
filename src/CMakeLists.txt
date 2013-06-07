@@ -3,8 +3,8 @@ MESSAGE(STATUS "Qt5 --> ${Qt5Widgets_VERSION_STRING}")
 SET(CMAKE_AUTOMOC ON)
 SET(CMAKE_INCLUDE_CURRENT_DIR ON)
 
-INCLUDE_DIRECTORIES(/usr/include /usr/local/include)
-LINK_DIRECTORIES(/usr/lib /usr/local/lib)
+INCLUDE_DIRECTORIES(/usr/include /usr/local/include ${LIBOGG_PREFIX}/include ${LIBVORBIS_PREFIX}/include)
+LINK_DIRECTORIES(/usr/lib /usr/local/lib ${LIBOGG_PREFIX}/lib ${LIBVORBIS_PREFIX}/lib)
 
 SET(BINARY_NAME "vorbis-music")
 
