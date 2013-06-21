@@ -58,11 +58,6 @@ bool playVorbis::decode(){
 
     connect(out,SIGNAL(stateChanged(QAudio::State)),SLOT(finishedPlaying(QAudio::State)));
 
-    vorbis_info *vinfo = ov_info(&vf,-1);
-    if(vinfo == NULL){//fail to get vorbis_info.
-        return false;
-    }
-
     fclose(f);
     ov_clear(&vf);
 
